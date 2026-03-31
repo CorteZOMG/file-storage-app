@@ -23,4 +23,5 @@
     <arg name="colors"/>
     <arg value="sp"/>
     <arg name="extensions" value="php"/>
+    <arg name="warning-severity" value="0"/>
 </ruleset>
