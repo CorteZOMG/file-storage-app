@@ -98,3 +98,29 @@ docker-compose exec db mysql -u file_storage_user -p file_storage
 # Clear all data (removes DB volume)
 docker-compose down -v
 ```
+
+## Code Quality
+
+### PHPStan — Static Analysis
+
+Catches bugs and type errors without running the code. Configured at **level 5** with [Larastan](https://github.com/larastan/larastan) for Laravel-aware analysis.
+
+```bash
+docker-compose exec app vendor/bin/phpstan analyse --memory-limit=512M
+```
+
+Config: [`phpstan.neon`](phpstan.neon)
+
+### PHPCS — Code Style (PSR-12)
+
+Enforces consistent code formatting across the project using the [PSR-12](https://www.php-fig.org/psr/psr-12/) standard.
+
+```bash
+# Check for style violations
+docker-compose exec app vendor/bin/phpcs
+
+# Auto-fix violations
+docker-compose exec app vendor/bin/phpcbf
+```
+
+Config: [`.phpcs.xml`](.phpcs.xml)
