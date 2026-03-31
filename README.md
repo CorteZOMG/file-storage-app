@@ -1,58 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# File Storage App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 13 file storage application running in Docker.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Service | Image / Version |
+|---------|----------------|
+| PHP-FPM | `php:8.4-fpm` |
+| Web Server | `nginx:1.27-alpine` |
+| Database | `mysql:8.4` |
+| Framework | Laravel 13 |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
+- Git
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <repository-url>
+cd file-storage-app
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Configure environment
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Edit `.env` if you need to change any default values. Key variables:
 
-## Code of Conduct
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `APP_PORT` | `8080` | Port the app is accessible on |
+| `DB_DATABASE` | `file_storage` | MySQL database name |
+| `DB_USERNAME` | `file_storage_user` | MySQL user |
+| `DB_PASSWORD` | `secret` | MySQL user password |
+| `DB_ROOT_PASSWORD` | `root_secret` | MySQL root password |
+| `DB_EXTERNAL_PORT` | `3306` | Host port for MySQL access |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Build and start containers
 
-## Security Vulnerabilities
+```bash
+docker-compose up -d --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+This starts three containers:
 
-## License
+- **file-storage-app** — PHP 8.4 FPM processing Laravel
+- **file-storage-nginx** — Nginx reverse proxy on port `8080`
+- **file-storage-db** — MySQL 8.4 with a health check
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Install dependencies
+
+```bash
+docker-compose exec app composer install
+```
+
+### 5. Set up Laravel
+
+```bash
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate
+```
+
+### 6. Open the app
+
+Visit [http://localhost:8080](http://localhost:8080)
+
+## Useful Commands
+
+```bash
+# Stop all containers
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# View logs for a specific service
+docker-compose logs -f app
+
+# Rebuild after Dockerfile changes
+docker-compose up -d --build
+
+# Run Artisan commands
+docker-compose exec app php artisan <command>
+
+# Open a shell inside the app container
+docker-compose exec app bash
+
+# Connect to MySQL
+docker-compose exec db mysql -u file_storage_user -p file_storage
+
+# Clear all data (removes DB volume)
+docker-compose down -v
+```
