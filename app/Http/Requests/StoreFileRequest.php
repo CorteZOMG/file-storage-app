@@ -25,7 +25,7 @@ class StoreFileRequest extends FormRequest
         return [
             'file' => 'required|image|max:5120',
             'comment' => 'nullable|string',
-            'expires_at' => 'nullable|date|after:today'
+            'expires_at' => 'nullable|date|after:now'
         ];
     }
 }
