@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // for the future, not implemented yet
-    Route::get('/files', function () {
-        return "Files list here";
-    })->name('files.index');
+    // File management routes
+    Route::get('/files', [FileController::class, 'index'])->name('files.index');
+    Route::post('/files', [FileController::class, 'store'])->name('files.store');
 
     Route::get('/reports', function () {
         return "Reports list here";

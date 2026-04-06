@@ -8,7 +8,6 @@ use App\Models\File;
 
 class FileUploadService
 {
-
     public function upload(UploadedFile $file, int $userId, ?string $comment, ?DateTime $expires_at): File
     {
         $path = $file->store('uploads');
@@ -21,5 +20,4 @@ class FileUploadService
             'expires_at' => $expires_at
         ]);
     }
-
 }

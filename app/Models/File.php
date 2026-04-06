@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['user_id', 'name', 'path', 'comment', 'expires_at'])]
 class File extends Model
 {
-
     protected function casts(): array
     {
         return [

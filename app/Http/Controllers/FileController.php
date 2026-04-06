@@ -6,12 +6,18 @@ use App\Http\Requests\StoreFileRequest;
 use App\Services\Files\FileUploadService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class FileController extends Controller
 {
     public function __construct(
         private readonly FileUploadService $fileUploadService
     ) {
+    }
+
+    public function index(): View
+    {
+        return view('files.index');
     }
 
     public function store(StoreFileRequest $request): RedirectResponse
