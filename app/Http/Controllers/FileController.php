@@ -8,8 +8,10 @@ use App\Services\Files\FileUploadService;
 use App\Services\Files\FileViewService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Models\File;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends Controller
 {
@@ -30,6 +32,11 @@ class FileController extends Controller
     {
         $this->fileViewService->incrementViewCount($file);
         return view('files.show', ['file' => $file]);
+    }
+
+    public function download(File $file): StreamedResponse
+    {
+        return Storage::response($file->path, $file->name);
     }
 
     public function store(StoreFileRequest $request): RedirectResponse
