@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/files/{file}', [FileController::class, 'show'])->name('files.show');
     Route::get('/files', [FileController::class, 'index'])->name('files.index');
     Route::post('/files', [FileController::class, 'store'])->name('files.store');
+    Route::delete('/files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
 
     Route::get('/reports', function () {
         return "Reports list here";

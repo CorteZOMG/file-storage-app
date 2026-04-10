@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
 use App\Services\Files\FileUploadService;
 use App\Services\Files\FileViewService;
+use App\Services\Files\FileDeleteService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,8 @@ class FileController extends Controller
 {
     public function __construct(
         private readonly FileUploadService $fileUploadService,
-        private readonly FileViewService $fileViewService
+        private readonly FileViewService $fileViewService,
+        private readonly FileDeleteService $fileDeleteService
     ) {
     }
 
@@ -53,5 +55,16 @@ class FileController extends Controller
         );
 
         return redirect()->back()->with('status', 'File uploaded successfully!');
+    }
+
+    public function destroy(File $file)
+    {
+        if ($file->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action');
+        }
+
+        $this->fileDeleteService->delete($file);
+
+        return redirect()->route('files.index')->with('status', 'File deleted successfully.');
     }
 }
