@@ -97,15 +97,41 @@
                             @endif
                         </div>
 
-                        <!-- Image Preview & Download -->
+                        <!-- Image Preview -->
                         <div class="col-span-1 md:col-span-2 pt-4 border-t border-gray-100 mt-2">
-                            <h3 class="text-sm font-bold text-gray-500 mb-4 mt-2 uppercase tracking-wide">Image Preview</h3>
-                            <div class="bg-gray-100 rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2 sm:p-4">
-                                <img src="{{ route('files.download', $file) }}" alt="{{ $file->name }}" class="max-h-[500px] w-auto object-contain rounded shadow-sm">
+                            <h3 class="text-sm font-bold text-gray-500 mb-4 mt-2 uppercase tracking-wide">Image Preview
+                            </h3>
+                            <div
+                                class="bg-gray-100 rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2 sm:p-4">
+                                <img src="{{ route('files.download', $file) }}" alt="{{ $file->name }}"
+                                    class="max-h-[500px] w-auto object-contain rounded shadow-sm">
                             </div>
-                            <div class="mt-4 flex justify-end">
-                                <a href="{{ route('files.download', $file) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition ease-in-out duration-150 shadow-sm" download>
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+
+                            <!-- Delete button -->
+                            <div class="mt-4 flex flex-col sm:flex-row justify-end gap-3">
+                                <form action="{{ route('files.destroy', $file) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this file? This cannot be undone.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 shadow-sm transition ease-in-out duration-150">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            </path>
+                                        </svg>
+                                        Delete File
+                                    </button>
+                                </form>
+
+                                <!-- Download button -->
+                                <a href="{{ route('files.download', $file) }}"
+                                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition ease-in-out duration-150 shadow-sm"
+                                    download>
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
                                     Download Image
                                 </a>
                             </div>
