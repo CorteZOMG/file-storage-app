@@ -42,8 +42,8 @@ class ShareLinkController extends Controller
     {
         $link = ShareLink::where('token', $token)->firstOrFail();
 
-        if ($link->hasBeenUsed()) {
-            abort(404, 'This one-time link has already been used and is no longer active.');
+        if (! $link->isValid()) {
+            abort(404, 'This link is no longer active.');
         }
 
         $this->linkViewerService->recordView($link);

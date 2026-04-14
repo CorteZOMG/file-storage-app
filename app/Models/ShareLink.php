@@ -24,8 +24,12 @@ class ShareLink extends Model
         return $this->type === 'public';
     }
 
-    public function hasBeenUsed(): bool
+    public function isValid(): bool
     {
-        return $this->isOneTime() && $this->views > 0;
+        if ($this->isOneTime() && $this->views > 0) {
+            return false;
+        }
+
+        return true;
     }
 }
