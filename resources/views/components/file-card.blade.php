@@ -1,9 +1,15 @@
 @props(['file'])
 
 <a href="{{ route('files.show', $file) }}" class="block h-full group cursor-pointer">
-    <div
-        class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-100 flex flex-col justify-between h-full group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-200">
-        <div>
+    <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden border border-gray-100 flex flex-col h-full group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-200">
+        
+        <!-- Image Preview Area -->
+        <div class="h-48 w-full bg-gray-50 flex items-center justify-center overflow-hidden border-b border-gray-100 relative">
+            <img src="{{ route('files.preview', $file) }}" alt="{{ $file->name }}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" loading="lazy">
+        </div>
+
+        <div class="p-6 flex flex-col flex-1 justify-between">
+            <div>
             <!-- Card Header (Icon and Date) -->
             <div class="flex items-center justify-between mb-4">
                 <div class="text-sm text-gray-500 flex items-center">
@@ -41,5 +47,6 @@
                 <span>{{ $file->expires_at->diffForHumans() }}</span>
             </div>
         @endif
+        </div>
     </div>
 </a>
