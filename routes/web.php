@@ -9,9 +9,9 @@ Route::get('/', function () {
     return redirect()->route('files.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\ReportController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Share Route
 Route::get('/shared/{token}', [ShareLinkController::class, 'show'])->name('shared.show');
@@ -30,9 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
     Route::post('/files/{file}/share', [ShareLinkController::class, 'store'])->name('files.share');
 
-    Route::get('/reports', function () {
-        return "Reports list here";
-    })->name('reports.index');
 });
 
 require __DIR__ . '/auth.php';
