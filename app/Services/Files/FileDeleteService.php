@@ -4,7 +4,6 @@ namespace App\Services\Files;
 
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
-
 use App\Contracts\Files\FileDeleteServiceInterface;
 
 class FileDeleteService implements FileDeleteServiceInterface

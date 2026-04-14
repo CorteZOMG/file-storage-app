@@ -3,7 +3,6 @@
 namespace App\Services\Files;
 
 use App\Models\ShareLink;
-
 use App\Contracts\Files\LinkViewerServiceInterface;
 
 class LinkViewerService implements LinkViewerServiceInterface

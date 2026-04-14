@@ -5,7 +5,6 @@ namespace App\Services\Files;
 use DateTime;
 use Illuminate\Http\UploadedFile;
 use App\Models\File;
-
 use App\Contracts\Files\FileUploadServiceInterface;
 
 class FileUploadService implements FileUploadServiceInterface

@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
 use App\Contracts\Files\FileDeleteServiceInterface;
 use App\Contracts\Files\FileUploadServiceInterface;
 use App\Contracts\Files\FileViewServiceInterface;
