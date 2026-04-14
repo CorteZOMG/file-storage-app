@@ -26,6 +26,10 @@ class ShareLink extends Model
 
     public function isValid(): bool
     {
+        if (! $this->file) {
+            return false;
+        }
+
         if ($this->isOneTime() && $this->views > 0) {
             return false;
         }
