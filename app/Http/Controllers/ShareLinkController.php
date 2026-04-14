@@ -47,7 +47,7 @@ class ShareLinkController extends Controller
         }
 
         $this->linkViewerService->recordView($link);
-        
+
         /** @var \App\Models\File $file */
         $file = $link->file;
         $this->fileViewService->incrementViewCount($file);
@@ -62,10 +62,10 @@ class ShareLinkController extends Controller
     public function image(string $token): StreamedResponse
     {
         $link = ShareLink::where('token', $token)->firstOrFail();
-        
+
         /** @var \App\Models\File $file */
         $file = $link->file;
-        
+
         return Storage::response($file->path, $file->name);
     }
 }

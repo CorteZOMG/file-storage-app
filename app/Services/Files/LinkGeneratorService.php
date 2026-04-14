@@ -10,7 +10,7 @@ class LinkGeneratorService
 {
     /**
      * Generate a new share link for a given file.
-     * 
+     *
      * @param File $file
      * @param string $type ('public' or 'one-time')
      * @return ShareLink

@@ -13,7 +13,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Share Route 
+// Share Route
 Route::get('/shared/{token}', [ShareLinkController::class, 'show'])->name('shared.show');
 Route::get('/shared/{token}/image', [ShareLinkController::class, 'image'])->name('shared.image')->middleware('signed');
 
