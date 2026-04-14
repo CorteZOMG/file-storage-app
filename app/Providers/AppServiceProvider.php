@@ -13,6 +13,8 @@ use App\Services\Files\FileUploadService;
 use App\Services\Files\FileViewService;
 use App\Services\Files\LinkGeneratorService;
 use App\Services\Files\LinkViewerService;
+use App\Contracts\Reports\ReportServiceInterface;
+use App\Services\Reports\ReportService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FileViewServiceInterface::class, FileViewService::class);
         $this->app->bind(LinkGeneratorServiceInterface::class, LinkGeneratorService::class);
         $this->app->bind(LinkViewerServiceInterface::class, LinkViewerService::class);
+        $this->app->bind(ReportServiceInterface::class, ReportService::class);
     }
 
     /**

@@ -39,7 +39,18 @@ class FileController extends Controller
 
     public function download(File $file): StreamedResponse
     {
+        if ($file->user_id !== Auth::id()) {
+            abort(403);
+        }
         return Storage::response($file->path, $file->name);
+    }
+
+    public function preview(File $file): StreamedResponse
+    {
+        if ($file->user_id !== Auth::id()) {
+            abort(403);
+        }
+        return Storage::response($file->path);
     }
 
     public function store(StoreFileRequest $request): RedirectResponse
