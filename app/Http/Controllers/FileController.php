@@ -32,6 +32,7 @@ class FileController extends Controller
 
     public function show(File $file): View
     {
+        $file->load('shareLinks');
         $this->fileViewService->incrementViewCount($file);
         return view('files.show', ['file' => $file]);
     }

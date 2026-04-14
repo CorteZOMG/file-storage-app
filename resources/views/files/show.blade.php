@@ -158,6 +158,8 @@
                         @endif
                     </div>
 
+                    <!-- Share Links Manager Component -->
+                    <x-files.share-manager :file="$file" />
                 </div>
             </div>
         </div>
