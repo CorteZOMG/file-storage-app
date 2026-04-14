@@ -17,12 +17,14 @@ class ReportService implements ReportServiceInterface
 
     public function getDeletedFilesCount(User $user): int
     {
+        /** @phpstan-ignore method.notFound */
         return $user->files()->onlyTrashed()->count();
     }
 
     public function getLinksStats(User $user): array
     {
         $stats = ShareLink::whereHas('file', function ($query) use ($user) {
+            /** @phpstan-ignore method.notFound */
             $query->where('user_id', $user->id)->withTrashed();
         })
             ->select('type', DB::raw('count(*) as total'), DB::raw('sum(views) as total_views'))
@@ -44,6 +46,7 @@ class ReportService implements ReportServiceInterface
     public function getTopViewedLinks(User $user, int $limit = 5): Collection
     {
         return ShareLink::with('file')->whereHas('file', function ($query) use ($user) {
+            /** @phpstan-ignore method.notFound */
             $query->where('user_id', $user->id)->withTrashed();
         })
             ->orderByDesc('views')

@@ -30,7 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/files', [FileController::class, 'store'])->name('files.store');
     Route::delete('/files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
     Route::post('/files/{file}/share', [ShareLinkController::class, 'store'])->name('files.share');
-
 });
 
 require __DIR__ . '/auth.php';
