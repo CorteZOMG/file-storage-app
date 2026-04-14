@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShareLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,6 +12,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Share Route
+Route::get('/shared/{token}', [ShareLinkController::class, 'show'])->name('shared.show');
+Route::get('/shared/{token}/image', [ShareLinkController::class, 'image'])->name('shared.image')->middleware('signed');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -23,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/files', [FileController::class, 'index'])->name('files.index');
     Route::post('/files', [FileController::class, 'store'])->name('files.store');
     Route::delete('/files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
+    Route::post('/files/{file}/share', [ShareLinkController::class, 'store'])->name('files.share');
 
     Route::get('/reports', function () {
         return "Reports list here";
