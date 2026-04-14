@@ -6,7 +6,9 @@ use App\Models\File;
 use App\Models\ShareLink;
 use Illuminate\Support\Str;
 
-class LinkGeneratorService
+use App\Contracts\Files\LinkGeneratorServiceInterface;
+
+class LinkGeneratorService implements LinkGeneratorServiceInterface
 {
     /**
      * Generate a new share link for a given file.

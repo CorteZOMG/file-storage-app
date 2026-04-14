@@ -6,7 +6,9 @@ use DateTime;
 use Illuminate\Http\UploadedFile;
 use App\Models\File;
 
-class FileUploadService
+use App\Contracts\Files\FileUploadServiceInterface;
+
+class FileUploadService implements FileUploadServiceInterface
 {
     public function upload(UploadedFile $file, int $userId, ?string $comment, ?DateTime $expires_at): File
     {

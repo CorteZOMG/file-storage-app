@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\ShareLink;
-use App\Services\Files\LinkGeneratorService;
-use App\Services\Files\LinkViewerService;
-use App\Services\Files\FileViewService;
+use App\Contracts\Files\LinkGeneratorServiceInterface;
+use App\Contracts\Files\LinkViewerServiceInterface;
+use App\Contracts\Files\FileViewServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ShareLinkController extends Controller
 {
     public function __construct(
-        private readonly LinkGeneratorService $linkGeneratorService,
-        private readonly LinkViewerService $linkViewerService,
-        private readonly FileViewService $fileViewService
+        private readonly LinkGeneratorServiceInterface $linkGeneratorService,
+        private readonly LinkViewerServiceInterface $linkViewerService,
+        private readonly FileViewServiceInterface $fileViewService
     ) {
     }
 
