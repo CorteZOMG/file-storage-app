@@ -17,10 +17,13 @@ class LinkGeneratorService
      */
     public function generate(File $file, string $type): ShareLink
     {
-        return $file->shareLinks()->create([
+        /** @var ShareLink $link */
+        $link = $file->shareLinks()->create([
             'token' => Str::uuid()->toString(),
             'type' => $type,
             'views' => 0,
         ]);
+
+        return $link;
     }
 }

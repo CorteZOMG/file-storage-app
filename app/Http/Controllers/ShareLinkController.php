@@ -47,16 +47,25 @@ class ShareLinkController extends Controller
         }
 
         $this->linkViewerService->recordView($link);
-        $this->fileViewService->incrementViewCount($link->file);
+        
+        /** @var \App\Models\File $file */
+        $file = $link->file;
+        $this->fileViewService->incrementViewCount($file);
 
         $imageUrl = URL::temporarySignedRoute('shared.image', now()->addMinutes(5), ['token' => $link->token]);
 
-        return view('shared.show', ['link' => $link, 'imageUrl' => $imageUrl]);
+        /** @var view-string $viewName */
+        $viewName = 'shared.show';
+        return view($viewName, ['link' => $link, 'imageUrl' => $imageUrl]);
     }
 
     public function image(string $token): StreamedResponse
     {
         $link = ShareLink::where('token', $token)->firstOrFail();
-        return Storage::response($link->file->path, $link->file->name);
+        
+        /** @var \App\Models\File $file */
+        $file = $link->file;
+        
+        return Storage::response($file->path, $file->name);
     }
 }
