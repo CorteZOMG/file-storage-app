@@ -3,8 +3,9 @@
 namespace App\Services\Files;
 
 use App\Models\ShareLink;
+use App\Contracts\Files\LinkViewerServiceInterface;
 
-class LinkViewerService
+class LinkViewerService implements LinkViewerServiceInterface
 {
     /**
      * Record a view for a given share link safely.

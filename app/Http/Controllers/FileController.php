@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
-use App\Services\Files\FileUploadService;
-use App\Services\Files\FileViewService;
-use App\Services\Files\FileDeleteService;
+use App\Contracts\Files\FileUploadServiceInterface;
+use App\Contracts\Files\FileViewServiceInterface;
+use App\Contracts\Files\FileDeleteServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class FileController extends Controller
 {
     public function __construct(
-        private readonly FileUploadService $fileUploadService,
-        private readonly FileViewService $fileViewService,
-        private readonly FileDeleteService $fileDeleteService
+        private readonly FileUploadServiceInterface $fileUploadService,
+        private readonly FileViewServiceInterface $fileViewService,
+        private readonly FileDeleteServiceInterface $fileDeleteService
     ) {
     }
 
@@ -32,6 +32,7 @@ class FileController extends Controller
 
     public function show(File $file): View
     {
+        $file->load('shareLinks');
         $this->fileViewService->incrementViewCount($file);
         return view('files.show', ['file' => $file]);
     }

@@ -5,8 +5,9 @@ namespace App\Services\Files;
 use App\Models\File;
 use App\Models\ShareLink;
 use Illuminate\Support\Str;
+use App\Contracts\Files\LinkGeneratorServiceInterface;
 
-class LinkGeneratorService
+class LinkGeneratorService implements LinkGeneratorServiceInterface
 {
     /**
      * Generate a new share link for a given file.
