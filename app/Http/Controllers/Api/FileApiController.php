@@ -25,7 +25,7 @@ class FileApiController extends Controller
     // GET /api/files
     public function index(Request $request)
     {
-        $files = $request->user()->files->latest()->get();
+        $files = $request->user()->files()->latest()->get();
         return FileResource::collection($files);
     }
 
