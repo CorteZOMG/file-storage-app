@@ -57,6 +57,22 @@ services:
       retries: 5
       start_period: 30s
 
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/nuxt/Dockerfile
+    container_name: file-storage-nuxt
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - file-storage-network
+    environment:
+      - NUXT_PUBLIC_API_BASE=http://localhost:8080/api
+
 networks:
   file-storage-network:
     driver: bridge
