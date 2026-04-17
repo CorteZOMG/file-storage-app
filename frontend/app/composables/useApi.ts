@@ -1,20 +1,26 @@
-import type { FetchOptions } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack'
 
-/**
- * Composable that provides a pre-configured $fetch wrapper for the Laravel API.
- *
- * - Reads the base URL from runtimeConfig.public.apiBase
- * - Automatically attaches the Authorization header when an auth token cookie exists
- * - Returns a typed `apiFetch` function that mirrors $fetch's signature
- */
+export interface ValidationErrors {
+  [field: string]: string[]
+}
+
+export function parseValidationErrors(error: FetchError): ValidationErrors {
+  if (error.response?.status === 422 && error.data?.errors) {
+    return error.data.errors as ValidationErrors
+  }
+
+  return { general: [error.data?.message || 'An unexpected error occurred.'] }
+}
+
 export function useApi() {
   const config = useRuntimeConfig()
   const token = useCookie('auth_token')
 
-  /**
-   * Wrapper around Nuxt's $fetch configured for the Laravel API.
-   */
-  async function apiFetch<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
+  async function apiFetch<T>(
+    endpoint: string,
+    options: NitroFetchOptions<NitroFetchRequest> = {},
+  ): Promise<T> {
     const headers: Record<string, string> = {
       Accept: 'application/json',
       ...(options.headers as Record<string, string> || {}),
