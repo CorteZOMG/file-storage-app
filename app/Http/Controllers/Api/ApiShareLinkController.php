@@ -67,7 +67,7 @@ class ApiShareLinkController extends Controller
     {
         $link = ShareLink::where('token', $token)->firstOrFail();
 
-        // No need to check isValid() here because temporarySignedRoute ensures authenticity & time limits
+        /** @var \App\Models\File $file */
         $file = $link->file;
 
         return \Illuminate\Support\Facades\Storage::response($file->path, $file->name);

@@ -30,15 +30,18 @@ class FileResource extends JsonResource
         ];
 
         if ($this->relationLoaded('shareLinks')) {
-            $data['share_links'] = $this->shareLinks->map(fn ($link) => [
-                'id' => $link->id,
-                'token' => $link->token,
-                'type' => $link->type,
-                'views' => $link->views,
-                'is_valid' => $link->isValid(),
-                'url' => url("api/share/{$link->token}"),
-                'created_at' => $link->created_at,
-            ]);
+            $data['share_links'] = $this->shareLinks->map(function ($link) {
+                /** @var \App\Models\ShareLink $link */
+                return [
+                    'id' => $link->id,
+                    'token' => $link->token,
+                    'type' => $link->type,
+                    'views' => $link->views,
+                    'is_valid' => $link->isValid(),
+                    'url' => url("api/share/{$link->token}"),
+                    'created_at' => $link->created_at,
+                ];
+            });
         }
 
         return $data;
