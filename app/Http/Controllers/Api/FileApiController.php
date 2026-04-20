@@ -12,6 +12,8 @@ use App\Models\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileApiController extends Controller
 {
@@ -57,11 +59,32 @@ class FileApiController extends Controller
         }
 
         $this->fileViewService->incrementViewCount($file);
+        $file->load('shareLinks');
 
         return new FileResource($file);
     }
 
-    //DELETE /api/files/{file}
+    // GET /api/files/{file}/download
+    public function download(File $file): StreamedResponse|JsonResponse
+    {
+        if ($file->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized operation'], 403);
+        }
+
+        return Storage::response($file->path, $file->name);
+    }
+
+    // GET /api/files/{file}/preview
+    public function preview(File $file): StreamedResponse|JsonResponse
+    {
+        if ($file->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized operation'], 403);
+        }
+
+        return Storage::response($file->path);
+    }
+
+    // DELETE /api/files/{file}
     public function destroy(File $file): JsonResponse
     {
         if ($file->user_id !== Auth::id()) {

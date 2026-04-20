@@ -36,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Laravel\Sanctum\Sanctum::getAccessTokenFromRequestUsing(
+            function (\Illuminate\Http\Request $request) {
+                return $request->bearerToken() ?: $request->query('token');
+            }
+        );
     }
 }
