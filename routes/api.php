@@ -24,7 +24,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('files', FileApiController::class)->except(['update']);
+    Route::name('api.')->group(function () {
+        Route::apiResource('files', FileApiController::class)->except(['update']);
+    });
 
     Route::post(
         'files/{file}/links',
