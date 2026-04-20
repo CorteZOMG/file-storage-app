@@ -53,7 +53,23 @@ class ApiShareLinkController extends Controller
 
         return response()->json([
             'message' => 'File retrieved successfully',
-            'data' => new FileResource($link->file)
+            'data' => new FileResource($link->file),
+            'image_url' => \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                'api.share.image',
+                now()->addMinutes(10),
+                ['token' => $link->token]
+            )
         ]);
+    }
+
+    // GET /api/share/{token}/image
+    public function image(string $token): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $link = ShareLink::where('token', $token)->firstOrFail();
+
+        // No need to check isValid() here because temporarySignedRoute ensures authenticity & time limits
+        $file = $link->file;
+
+        return \Illuminate\Support\Facades\Storage::response($file->path, $file->name);
     }
 }
