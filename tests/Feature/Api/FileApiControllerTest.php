@@ -17,7 +17,7 @@ class FileApiControllerTest extends TestCase
     {
         $user = User::factory()->create();
         FileModel::create(['user_id' => $user->id, 'name' => 'f1', 'path' => 'p1']);
-        
+
         $response = $this->actingAs($user)->getJson('/api/files');
         $response->assertStatus(200)->assertJsonCount(1, 'data');
     }
@@ -46,7 +46,7 @@ class FileApiControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals(1, $file->refresh()->view_count);
     }
-    
+
     public function test_cannot_view_others_files(): void
     {
         $user1 = User::factory()->create();

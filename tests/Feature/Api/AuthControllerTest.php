@@ -21,7 +21,7 @@ class AuthControllerTest extends TestCase
 
         $response->assertStatus(201)
                  ->assertJsonStructure(['access_token', 'token_type', 'user']);
-                 
+
         $this->assertDatabaseHas('users', ['email' => 'john@example.com']);
     }
 
@@ -81,7 +81,7 @@ class AuthControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseCount('personal_access_tokens', 0);
     }
-    
+
     public function test_get_user(): void
     {
         $user = User::factory()->create();

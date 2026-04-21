@@ -33,7 +33,7 @@ class RegisterServiceTest extends TestCase
             'email' => 'johndoe@example.com',
             'name' => 'John Doe'
         ]);
-        
+
         $this->assertTrue(Hash::check('secretpassword', $user->password));
 
         Event::assertDispatched(Registered::class, function ($event) use ($user) {

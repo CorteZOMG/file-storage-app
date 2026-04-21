@@ -35,7 +35,7 @@ class LoginServiceTest extends TestCase
         RateLimiter::shouldReceive('clear')->once();
 
         $this->loginService->authenticate('test@example.com', 'password', false, '127.0.0.1');
-        
+
         $this->assertAuthenticatedAs($user);
     }
 

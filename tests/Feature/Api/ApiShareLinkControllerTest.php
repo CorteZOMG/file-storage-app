@@ -34,10 +34,10 @@ class ApiShareLinkControllerTest extends TestCase
         $response = $this->getJson('/api/share/tok123');
         $response->assertStatus(200)
                  ->assertJsonStructure(['data' => ['id', 'name'], 'image_url']);
-                 
+
         $this->assertEquals(1, $link->refresh()->views);
     }
-    
+
     public function test_expired_or_invalid_link_returns_404(): void
     {
         $user = User::factory()->create();

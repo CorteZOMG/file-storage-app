@@ -17,7 +17,7 @@ class ShareLinkTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $user = User::factory()->create();
         $this->file = File::create([
             'user_id' => $user->id,
@@ -85,7 +85,7 @@ class ShareLinkTest extends TestCase
             'views' => 1,
         ]);
         $this->assertFalse($oneTimeViewed->isValid());
-        
+
         // Orphaned link
         $orphanedLink = new ShareLink([
             'file_id' => 999999,

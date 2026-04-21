@@ -23,7 +23,7 @@ class FileUploadServiceTest extends TestCase
         $uploadedFile = UploadedFile::fake()->create('document.pdf', 1024, 'application/pdf');
 
         $service = new FileUploadService();
-        
+
         $expiresAt = new DateTime('+1 day');
 
         $fileModel = $service->upload($uploadedFile, $user->id, 'Important doc', $expiresAt);
@@ -34,7 +34,7 @@ class FileUploadServiceTest extends TestCase
         $this->assertEquals($user->id, $fileModel->user_id);
 
         Storage::disk('local')->assertExists($fileModel->path);
-        
+
         $this->assertDatabaseHas('files', [
             'id' => $fileModel->id,
             'name' => 'document.pdf'
