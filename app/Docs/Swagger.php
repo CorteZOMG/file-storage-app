@@ -18,4 +18,6 @@ use OpenApi\Attributes as OAT;
     type: "http",
     scheme: "bearer"
 )]
-class Swagger {}
+class Swagger
+{
+}
