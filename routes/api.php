@@ -26,9 +26,7 @@ Route::get(
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', [AuthController::class, 'user']);
 
     Route::name('api.')->group(function () {
         Route::apiResource('files', FileApiController::class)->except(['update']);

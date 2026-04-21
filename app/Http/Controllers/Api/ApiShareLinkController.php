@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use OpenApi\Attributes as OAT;
 use App\Contracts\Files\LinkGeneratorServiceInterface;
 use App\Contracts\Files\LinkViewerServiceInterface;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+#[OAT\Tag(name: "Share Links", description: "File sharing endpoints")]
 class ApiShareLinkController extends Controller
 {
     public function __construct(
@@ -21,6 +23,15 @@ class ApiShareLinkController extends Controller
     }
 
     // POST /api/files/{file}/links
+    #[OAT\Post(path: "/files/{file}/links", summary: "Generate a share link for a file", tags: ["Share Links"], security: [["bearerAuth" => []]])]
+    #[OAT\Parameter(name: "file", in: "path", required: true, schema: new OAT\Schema(type: "integer"))]
+    #[OAT\RequestBody(required: true, content: new OAT\JsonContent(
+        required: ["type"],
+        properties: [
+            new OAT\Property(property: "type", type: "string", enum: ["public", "one-time"])
+        ]
+    ))]
+    #[OAT\Response(response: 201, description: "Link generated successfully")]
     public function store(Request $request, File $file): JsonResponse
     {
         if ($file->user_id !== Auth::id()) {
@@ -41,6 +52,9 @@ class ApiShareLinkController extends Controller
     }
 
     // GET /api/share/{token}
+    #[OAT\Get(path: "/share/{token}", summary: "Access a shared file by token", tags: ["Share Links"])]
+    #[OAT\Parameter(name: "token", in: "path", required: true, schema: new OAT\Schema(type: "string"))]
+    #[OAT\Response(response: 200, description: "File details and image URL")]
     public function show(string $token): JsonResponse
     {
         $link = ShareLink::where('token', $token)->first();
@@ -63,6 +77,9 @@ class ApiShareLinkController extends Controller
     }
 
     // GET /api/share/{token}/image
+    #[OAT\Get(path: "/share/{token}/image", summary: "View image of a shared public file", tags: ["Share Links"])]
+    #[OAT\Parameter(name: "token", in: "path", required: true, schema: new OAT\Schema(type: "string"))]
+    #[OAT\Response(response: 200, description: "Image stream")]
     public function image(string $token): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         $link = ShareLink::where('token', $token)->firstOrFail();
