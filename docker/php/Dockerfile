@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
         gd \
         zip \
         opcache \
+    && pecl install pcov \
+    && docker-php-ext-enable pcov \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
