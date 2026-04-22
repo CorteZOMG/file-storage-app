@@ -17,7 +17,10 @@
                     <x-icons.page class="w-4 h-4 mr-1 text-indigo-500" />
                     File
                 </div>
-                <div class="text-xs text-gray-400" title="{{ $file->created_at->format('M d, Y H:i') }}">
+                <div class="text-xs text-gray-400" 
+                     x-data="{ d: new Date('{{ $file->created_at->toIso8601String() }}') }"
+                     x-bind:title="d.toLocaleString([], {month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'})"
+                     title="{{ $file->created_at->format('M d, Y H:i') }} UTC">
                     {{ $file->created_at->diffForHumans() }}
                 </div>
             </div>
