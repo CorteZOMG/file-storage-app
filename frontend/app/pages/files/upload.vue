@@ -142,7 +142,9 @@ async function handleSubmit() {
   const formData = new FormData()
   formData.append('file', selectedFile.value!)
   if (form.comment) formData.append('comment', form.comment)
-  if (form.expires_at) formData.append('expires_at', form.expires_at)
+  if (form.expires_at) {
+    formData.append('expires_at', new Date(form.expires_at).toISOString())
+  }
 
   try {
     await apiFetch('/files', {

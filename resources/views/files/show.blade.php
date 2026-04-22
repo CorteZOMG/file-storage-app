@@ -36,8 +36,10 @@
                         <!-- Upload Date -->
                         <div class="flex flex-col">
                             <h3 class="text-sm font-bold text-gray-500 mb-1 uppercase tracking-wide">Upload Date</h3>
-                            <p class="text-base text-gray-900 font-medium">
-                                {{ $file->created_at->format('M d, Y \a\t H:i') }}
+                            <p class="text-base text-gray-900 font-medium"
+                               x-data="{ d: new Date('{{ $file->created_at->toIso8601String() }}') }"
+                               x-text="d.toLocaleString([], {month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'})">
+                                {{ $file->created_at->format('M d, Y \a\t H:i') }} UTC
                             </p>
                             <p class="text-sm text-gray-400 mt-0.5">
                                 {{ $file->created_at->diffForHumans() }}
@@ -64,7 +66,10 @@
                                 <p
                                     class="text-base font-medium flex items-center {{ $file->expires_at->isPast() ? 'text-red-600' : 'text-orange-600' }}">
                                     <x-icons.clock class="w-5 h-5 mr-2" />
-                                    {{ $file->expires_at->format('M d, Y \a\t H:i') }}
+                                    <span x-data="{ d: new Date('{{ $file->expires_at->toIso8601String() }}') }"
+                                          x-text="d.toLocaleString([], {month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'})">
+                                        {{ $file->expires_at->format('M d, Y \a\t H:i') }} UTC
+                                    </span>
                                     <span class="text-sm ml-2 font-normal opacity-80 border-l border-current pl-2">
                                         {{ $file->expires_at->isPast() ? 'Expired' : 'Expires ' . $file->expires_at->diffForHumans() }}
                                     </span>
